@@ -15,7 +15,7 @@ Keep every response concise and readable. Check it against **How to answer** bef
 
 ## Setup
 
-- Read the API key and API base URL from the environment. If unset, follow the documented setup instructions; the default base URL is `https://deepapi.co`.
+- Read `API_KEY` and `API_BASE_URL` from the environment. If unset, use your configured credentials; the default base URL is `https://deepapi.co`.
 - If the key is missing, stop and tell the user to get one at https://deepapi.co.
 - Never print, log, or expose the key.
 

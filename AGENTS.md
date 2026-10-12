@@ -74,7 +74,7 @@
 - the production branch is the "main" branch
 - do not push to github by yourself
 - when the User says “push to github”, do all the steps required to do so (no overthinking!)
-- if you are in a worktree, configure required environment variables securely
+- if you are in a worktree, you should copy the `.env` files from the Primary Checkout into the worktree
 
 ## SECRETS
 - Never commit `.env` files, API keys, tokens, cookies, etc.

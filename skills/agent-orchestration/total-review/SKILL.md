@@ -8,14 +8,14 @@ disable-model-invocation: true
 
 ## Workflow
 
-1. **Launch both reviewers in parallel** as two bb threads (default). Follow `/nagent`, `/bb-cli`, and each reviewer skill:
+1. **Launch both reviewers in parallel** as two review threads. Follow the relevant harness guidance and each reviewer skill:
    - One `fable-review` worker (Fable 5 Max 1M).
    - One `gpt-review` worker (GPT 5.6 Sol Max).
    - Follow each reviewer skill exactly: neutral prompt, broad review scope, detailed findings on critical/serious issues, concise plain-English final report.
-   - Reuse this thread's environment so both see the same files.
+   - Use the same files and context for both reviewers.
    - If the user names another harness (Cursor Task, cmux, Codex CLI, etc.), use that for both instead.
 
-2. **Wait for both to finish** (`bb thread wait` on each, unless another harness was requested). Do not start triage until both reports are back.
+2. **Wait for both to finish.** Do not start triage until both reports are back.
 
 3. **Merge and triage.** Read both reports in full. Then:
    - Combine and deduplicate findings; an issue reported by both counts once.
@@ -28,7 +28,7 @@ disable-model-invocation: true
    - One short line at the end: how many findings were dropped as overthinking.
    - Then ask the user: approve fixing these, or adjust the list.
 
-5. **On approval, fix and ship.** Fix only approved issues. Then stage, commit with a clear message, and push to GitHub using the standard ship workflow.
+5. **On approval, fix and ship.** Fix only approved issues. Then follow the repository's contribution process.
 
 ## Rules
 

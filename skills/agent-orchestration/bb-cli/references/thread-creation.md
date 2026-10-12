@@ -39,11 +39,12 @@
   runtime promptly. Archive it first when it no longer belongs in active thread
   lists. Stop preserves the thread and supports a later resume.
 - Add remote execution machines from Settings → Machines. Its one-line
-  installer configures the daemon and agent-launched `bb` CLI for remote
-  execution. The installer installs under the enrollment's bb data directory,
+  installer enrolls the machine; revoke a lost machine from the getbb.app
+  dashboard. The installer uses the server-provided artifact and uses the npm
+  registry only on a 404. It installs under the enrollment's bb data directory,
   without `sudo` or a global npm configuration, and enables daemon
-  `--auto-update`. Newer protocol mismatches update that private install with
-  a persisted exponential retry backoff from 5 seconds to 5 minutes, then let
+  `--auto-update`. Newer protocol mismatches update that install with a
+  persisted exponential retry backoff from 5 seconds to 5 minutes, then let
   launchd/systemd restart the daemon. Auto-update never downgrades. To bypass a
   transient backoff, use `bb machine retry-update <id-or-name>`. Remove
   `--auto-update` from the service definition and reload it to opt out.
@@ -57,9 +58,9 @@
   `full`): the highest permission mode a thread on that machine may run with.
   The server resolves any higher request down to it, and refuses a provider
   that supports no mode under it. Only the owner can change it, on the machine
-  page at Settings → Machines → the machine — there is no CLI, SDK, or API
-  surface that sets it, so read it from `bb machine list --json` or
-  `bb machine show` and ask the user to change it in the app.
+  page at Settings → Machines → the machine — so read it from
+  `bb machine list --json` or `bb machine show` and ask the user to change it
+  in the app.
 - `bb machine show`, `join-code`, `rename`, `retry-update`, and `remove` cover
   the Settings → Machines lifecycle. Use `bb machine provider-cli
 status|install` to inspect or install provider CLIs on a selected machine.
@@ -87,7 +88,7 @@ status|install` to inspect or install provider CLIs on a selected machine.
 - Use `bb project attachment upload <project-id> --client-file <path>` when the
   bytes live on the CLI machine, including when the CLI and bb server are on
   different hosts. It reads locally and sends multipart bytes through the
-  configured server connection, returning the stable server attachment DTO.
+  configured `BB_SERVER_URL`, returning the stable server attachment DTO.
   Optional `--filename` and `--mime-type` override inferred metadata. Pass the
   returned relative `path` to thread `--file` or `--image`; image MIME types
   are capped at 10MB and other files at 25MB, and image/heic or image/heif

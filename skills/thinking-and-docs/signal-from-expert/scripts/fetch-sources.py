@@ -8,22 +8,22 @@ Uses curl (not urllib) because the sandbox proxy truncates chunked responses to 
 import argparse, datetime, json, os, re, subprocess, sys, time, uuid
 
 def load_env():
-    if os.environ.get("API_KEY") and os.environ.get("API_BASE_URL"):
+    if os.environ.get("API_AUTH_HEADER") and os.environ.get("API_BASE_URL"):
         return
-    p = os.path.expanduser("~/.config/api-client/env")
+    p = os.path.expanduser("/path/to/api-env")
     if os.path.exists(p):
         for line in open(p):
             line = line.strip()
             if line.startswith("export "): line = line[7:]
             if "=" in line and not line.startswith("#"):
                 k, v = line.split("=", 1); os.environ.setdefault(k, v.strip().strip('\"').strip("'"))
-    if not os.environ.get("API_KEY"):
-        sys.exit("API_KEY not set. Run: source ~/.config/api-client/env")
+    if not os.environ.get("API_AUTH_HEADER"):
+        sys.exit("API_AUTH_HEADER not set. Load your API credentials.")
 
 def curl(method, path, body=None):
     base = os.environ["API_BASE_URL"].rstrip("/")
     cmd = ["curl", "-s", "-m", "180", "-X", method, path if path.startswith("http") else base + path,
-           "-H", f"Authorization: Bearer {os.environ['API_KEY']}", "-H", f"Idempotency-Key: {uuid.uuid4()}"]
+           "-H", os.environ["API_AUTH_HEADER"], "-H", f"Idempotency-Key: {uuid.uuid4()}"]
     if body is not None:
         cmd += ["-H", "Content-Type: application/json", "-d", json.dumps(body)]
     out = subprocess.run(cmd, capture_output=True, text=True).stdout
@@ -44,12 +44,12 @@ def clean(text, title=""):
         s = l.strip()
         if s.startswith("|"):                      # site layout tables: nav, ads, translation links, title cells
             c = s.strip("|").strip()
-            if re.fullmatch(r"[-\s|]*", c) or len(c) < 60: continue   # separators and short nav/ad cells
+            if re.fullmatch(r"[-\\s|]*", c) or len(c) < 60: continue   # separators and short nav/ad cells
             l = c                                   # long cell = real prose that the site wrapped in a table
         elif s.endswith(" |"): l = l.rstrip()[:-2]   # prose line that closes a layout cell
-        if re.fullmatch(r"!\[[^\]]*\]\([^)]*\)", l.strip()): continue   # bare images
-        out.extend(x.rstrip() for x in l.replace("<br>", "\n").split("\n"))
-    body = re.sub(r"\n{3,}", "\n\n", "\n".join(out)).strip()
+        if re.fullmatch(r"!\\[[^\\]]*\\]\\([^)]*\\)", l.strip()): continue   # bare images
+        out.extend(x.rstrip() for x in l.replace("<br>", "\\n").split("\\n"))
+    body = re.sub(r"\\n{3,}", "\\n\\n", "\\n".join(out)).strip()
     if title and body.startswith(title): body = body[len(title):].lstrip()   # title already in the header
     return body
 
@@ -62,7 +62,7 @@ def main():
     ap.add_argument("--start", type=int, default=None, help="first file number (default: continue numbering in --out)")
     ap.add_argument("--max-chars", type=int, default=300000); ap.add_argument("urls", nargs="+")
     a = ap.parse_args(); load_env(); os.makedirs(a.out, exist_ok=True)
-    existing = sorted(f for f in os.listdir(a.out) if re.match(r"\d\d-.*\.md$", f))
+    existing = sorted(f for f in os.listdir(a.out) if re.match(r"\\d\\d-.*\\.md$", f))
     n = a.start or (int(existing[-1][:2]) + 1 if existing else 1)
     pages = {p.get("url"): p for p in scrape(a.urls, a.max_chars)}
     today = datetime.date.today().strftime("%d-%m-%Y")
@@ -72,9 +72,9 @@ def main():
         title = (p.get("title") or u).strip(); body = clean(p.get("text") or p.get("markdown") or "", title)
         path = os.path.join(a.out, f"{n:02d}-{slug(title)}.md")
         with open(path, "w") as fh:
-            fh.write(f"# {title}\n\nSource: {u}\nAuthor: {a.expert}\nScraped: {today} via DeepAPI (raw text, unedited)\n\n---\n\n{body}\n")
+            fh.write(f"# {title}\\n\\nSource: {u}\\nAuthor: {a.expert}\\nScraped: {today} via DeepAPI (raw text, unedited)\\n\\n---\\n\\n{body}\\n")
         print(f"{path}  {len(body)} chars{'  TRUNCATED' if p.get('truncated') else ''}")
-        print(f"  head: {body[:90]!r}\n  tail: {body[-90:]!r}")
+        print(f"  head: {body[:90]!r}\\n  tail: {body[-90:]!r}")
         n += 1
 
 if __name__ == "__main__": main()

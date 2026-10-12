@@ -2,6 +2,9 @@
 
 David Ondrej's official Agent Skills.
 
+Run them on cloud agents with [Cloudroom](https://www.cloudroom.dev): free and open source,
+for Claude Code, Codex, and Pi.
+
 This repository contains reusable skills for AI coding agents, research agents,
 and workflow agents. Each skill packages a focused workflow into instructions
 that an agent can load when the task calls for it.

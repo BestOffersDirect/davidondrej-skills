@@ -1,6 +1,6 @@
 ---
 name: codex-subagent
-description: Launch OpenAI Codex CLI as a subagent (ChatGPT subscription auth, no API key). Use when delegating a self-contained coding task to Codex from another agent — parallel implementation work, a second opinion, or an independent verification pass.
+description: Launch OpenAI Codex CLI as a subagent (no API key). Use when delegating a self-contained coding task to Codex from another agent — parallel implementation work, a second opinion, or an independent verification pass.
 disable-model-invocation: true
 triggers: [user, model]
 ---
@@ -9,7 +9,7 @@ triggers: [user, model]
 
 Codex CLI is OpenAI's terminal coding agent. `codex exec` runs it non-interactively:
 it works autonomously in a sandbox, streams progress to stderr, and prints only the
-final message to stdout. Auth reuses the user's ChatGPT subscription — never an API key.
+final message to stdout. Auth reuses your existing Codex login — never an API key.
 
 ## When to delegate
 

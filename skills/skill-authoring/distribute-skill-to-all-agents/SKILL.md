@@ -5,7 +5,7 @@ description: Distribute global skills across Codex, Claude Code, Pi, Hermes, and
 
 # Distribute a Skill Across All Agents
 
-A global skill must exist at all five locations on the user's machine, directly or via symlink, for every agent to discover it.
+A global skill must exist at all five locations on the user's Mac, directly or via symlink, for every agent to discover it.
 
 ## Skill locations
 

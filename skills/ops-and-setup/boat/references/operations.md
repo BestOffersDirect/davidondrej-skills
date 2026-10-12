@@ -119,8 +119,8 @@ Sources: [snapshots](https://docs.boat.dev/snapshots), [environments](https://do
 
 Manual integration tests on 2026-09-09 established the observations below. Keep detailed transcripts, live machine identifiers, and account details in the owning project's private records.
 
-- The tests used Python `urllib.request` with an API-key environment variable and bearer headers. No Box-specific skill, installed SDK, or Box CLI was required for those requests.
+- The tests used Python `urllib.request` with `<API_KEY_ENV_VAR>` and bearer headers. No Box-specific skill, installed SDK, or Box CLI was required for those requests.
 - Authenticated account/limit/Box reads worked. A small temporary Python client also created a Box with `noEnv: true`, registered an SSH key, and called the command endpoint.
-- SSH/SCP handled BB installation and credential transfer. BB's remote worker ran Codex, cloned a GitHub project, created a worktree, and completed a harmless coding test with diff review, local commit, and conversation continuation.
+- SSH/SCP handled BB installation and credential transfer. BB's remote worker ran Codex using the existing ChatGPT subscription, cloned a GitHub project, created a worktree, and completed a harmless coding test with diff review, local commit, and conversation continuation.
 - One worktree setup took 66 seconds, including 63 seconds installing dependencies. This was one observation, not a latency guarantee. It motivates preparing dependencies in templates and measuring useful-work startup.
 - These tests establish the manual integration path. They do not by themselves establish automatic provisioning for every new thread, uninterrupted work after laptop disconnection, restart of the same conversation after stop/resume, or isolation under concurrent users. Verify each in the actual deployment before claiming it works.

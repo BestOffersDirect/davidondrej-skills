@@ -35,12 +35,14 @@ For unclear schema, pricing, scope, or availability, fetch
 
 ## Start and preserve request identity
 
-Requires `curl`, `jq`, and `uuidgen`. Adapt the body. Load the documented credential
-setup file only when setup variables are missing; never source `~/.zshrc` or print the key.
+Requires `curl`, `jq`, and `uuidgen`. Adapt the body. Load credentials using your
+approved local setup; never print the key or source shell startup files.
 
 ```bash
 if [ -z "${API_KEY:-}" ] || [ -z "${DEEPAPI_API_BASE_URL:-}" ]; then
-  . "$CREDENTIALS_FILE"
+  # Load credentials using your approved local setup.
+  : "${API_KEY:?DeepAPI setup is required}"
+  : "${DEEPAPI_API_BASE_URL:?DeepAPI setup is required}"
 fi
 : "${API_KEY:?DeepAPI setup is required}"
 : "${DEEPAPI_API_BASE_URL:?DeepAPI setup is required}"
@@ -58,7 +60,7 @@ cat > "$DEEP_SCRAPE_DIR/body.json" <<'JSON'
 JSON
 curl --silent --show-error --connect-timeout 10 --max-time 90 \
   "$DEEP_SCRAPE_BASE/v1/scrape/deep" \
-  -H "Authorization: Bearer $API_KEY" \
+  # Add authentication using the documented method; never print the key.
   -H "Content-Type: application/json" \
   -H "X-DeepAPI-Skill-Version: $DEEP_SCRAPE_VERSION" \
   -H "Idempotency-Key: $(cat "$DEEP_SCRAPE_DIR/idempotency.txt")" \
@@ -68,8 +70,8 @@ jq '{requestId, status, next, error}' "$DEEP_SCRAPE_DIR/start.json"
 ```
 
 Keep the run directory, body, idempotency key, and `requestId`. On Windows,
-load the documented credential setup file and send the same headers/JSON through PowerShell.
-Adjust the `deepapi` skill path if installed elsewhere.
+load credentials using your approved local setup and send the same JSON and
+required headers through PowerShell. Adjust the `deepapi` skill path if installed elsewhere.
 
 ## Poll until the result is final
 
@@ -78,7 +80,7 @@ Expect HTTP **202**, `status: "running"`, `output: null`, and a polling `next` a
 1. Read the saved response; handle errors before output.
 2. If `next.method` is `GET` and `next.path` starts with `/v1/requests/`, wait
    `next.afterSecs`, then GET that path on the **same API base** with the same
-   bearer key. Preserve query parameters; allow at least 90 seconds per polling HTTP request.
+   credentials. Preserve query parameters; allow at least 90 seconds per polling HTTP request.
 3. Save every response and follow that polling action even for `status: "succeeded"`
    with `output: null`. Stop on terminal failure or no remaining polling action.
 4. Never automatically follow a `POST` next action. For an already authorized
