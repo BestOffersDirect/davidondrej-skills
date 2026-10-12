@@ -1,19 +1,27 @@
 ---
 name: gpt-review
-description: Launch an independent GPT code review and return it verbatim. Use only when the user explicitly invokes /gpt-review.
+description: Launch an independent GPT-6.1-Sol Max code review and return it verbatim. Use only when the user explicitly invokes /gpt-review.
 disable-model-invocation: true
 triggers: [user, model]
 ---
 
 # GPT Review
 
-Use **GPT-6 Astra Extra High** through Codex, orchestrated by Cloudroom.
+Always use **GPT-6.1-Sol at Max reasoning** through Codex, orchestrated by Cloudroom. No other model or effort, ever.
 
 ## Run
 
-Read `/room-cli` and follow its launch checks. Discover provider/model/effort IDs rather than guessing. Reuse the current environment, including uncommitted work, and use `--parent-self` when coordinating.
+Read `/room-cli` and follow its launch checks. Reuse the current environment, including uncommitted work, and use `--parent-self` when coordinating.
 
-If the user names another harness, read its skill and use it with the same model, effort, workspace, brief, and output requirements. Report unavailable model/effort as blockers; never silently downgrade.
+Always spawn with exactly these flags:
+
+```bash
+--provider codex --model gpt-6.1-sol --reasoning-level max
+```
+
+- Before spawning, confirm `room-cli provider models codex --json` lists `gpt-6.1-sol` with `max` in `supportedReasoningEfforts`.
+- After spawning, confirm with `room-cli thread show` that the thread runs `gpt-6.1-sol` at `max`.
+- If either check fails, stop and report the blocker. Never fall back to another model, effort, or harness.
 
 ## Review brief
 
@@ -21,6 +29,6 @@ Give neutral context: scope, paths, intended behavior, and diff/base revision. A
 
 ## Result
 
-Use `room-cli thread wait` and `room-cli thread output` (or the selected harness's equivalents). Verify this review actually completed; idle status, timeouts, and queued retries are not completion. Report blockers rather than presenting partial output as a finished review.
+Use `room-cli thread wait` and `room-cli thread output`. Verify this review actually completed; idle status, timeouts, and queued retries are not completion. Report blockers rather than presenting partial output as a finished review.
 
 Return the completed reviewer's full final response verbatim.
