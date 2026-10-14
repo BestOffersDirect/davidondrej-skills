@@ -31,7 +31,7 @@ a skill does not grant permissions. Do not add restrictions or timeouts unless r
 2. Discover the intended app/window with `list_apps` / `list_windows`.
 3. Read `cua-driver describe TOOL` before using unfamiliar parameters.
 4. Get fresh `get_window_state` for the exact `pid` and `window_id`.
-    - Prefer an `element_token`; otherwise use `element_index` with its matching `snapshot_id`.
+    - Target an `element_token` (`<snapshot_id>:N`). Driver 0.34+ no longer accepts `element_index`.
     - For pixels, read the same window's screenshot. Never guess coordinates or mix Retina points with screenshot pixels.
 5. Perform one background action, then inspect fresh state to verify the outcome.
     - Stale references require a new snapshot. A successful tool response alone proves nothing.
