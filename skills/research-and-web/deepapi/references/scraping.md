@@ -1,6 +1,6 @@
 # Scraping — DeepAPI Workflow Guide
 
-Managed workflow guide for the `scraping` rows of the `deepapi` skill router. Bundle version: 0da3c1fcc437. This file is always managed — it is refreshed with the bundle even when `../SKILL.md` has been customized.
+Managed workflow guide for the `scraping` rows of the `deepapi` skill router. Bundle version: 9da01b8b340d. This file is always managed — it is refreshed with the bundle even when `../SKILL.md` has been customized.
 
 Shared protocol (environment, auth, idempotency, dry-run, polling, and error handling) lives in `../SKILL.md`.
 
@@ -14,6 +14,7 @@ Use this reference to collect structured public data for research, monitoring, l
 | --- | --- | --- |
 | Extract a site or document | `/v1/scrape/website` or `/v1/scrape/pdf` | Follow discovered pages only when the task needs them |
 | Research developers or software | `/v1/scrape/github/search` | GitHub repository, profile, issues, pulls, contents, or commits |
+| Research scientific papers | `/v1/scrape/arxiv/search` or `/latest` | `/paper` with a `question` reads inside one |
 | Research people, companies, or hiring across sources | `/v1/scrape/deep` | Use source links to verify facts and investigate gaps |
 | Research creators and content | `/v1/scrape/youtube/search` or `/v1/scrape/tiktok/search` | YouTube transcript, channel, or shorts; TikTok profile, posts, comments, or transcript |
 | Monitor conversations and audience response | X/Twitter, Reddit, Instagram, or Threads endpoints | Use `/v1/scrape/threads/posts` for exact Threads post URLs |
