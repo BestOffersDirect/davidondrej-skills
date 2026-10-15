@@ -29,7 +29,6 @@
 - When doing bug fixes, always start with reproducing the bug in an E2E setting
   as closely aligned with how an end user would experience it. This makes sure
   you find the real problem so your fix will actually solve it.
-- Do not delete, skip, weaken, or narrow tests to make a task pass.
 - Prefer behavior-focused tests over private implementation tests.
 
 ## DOCUMENTATION
@@ -65,7 +64,7 @@
 ## OTHER CONTRIBUTORS
 - many other Humans/Agents are working in this repo
 - so DO NOT delete, revert or overwrite changes YOU did not make.
-- be aware that the User may also be working on this computer
+- be aware that the User is also working on this computer
 - DO NOT open random browser tabs, or applications, without the User's explicit approval
 - If unrelated changes appear, assume other actors made them
 - When writing commit messages, NEVER EVER auto-add your agent name as co-author!
@@ -103,7 +102,7 @@
   Independent work runs IN PARALLEL by default. Sequential is the exception and
   needs a reason.
 - if the next step is obvious, clear & safe -- JUST DO IT.
-- tell the User clearly when he is your Bottleneck! be honest.
+- tell the User clearly when they are your Bottleneck! be honest.
 
 ## DECISIONS vs EXECUTION
 - for important Software Design or Architecture decisions, slow down, think through
