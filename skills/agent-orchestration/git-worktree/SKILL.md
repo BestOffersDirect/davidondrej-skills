@@ -7,6 +7,20 @@ triggers: [user, model]
 
 # Git Worktrees for Parallel Agents
 
+## In Cloudroom (`$ROOM_THREAD_ID` is set)
+
+Never run `git worktree add` yourself. Cloudroom only deletes worktrees it made, so hand-made ones pile up in `~/code` forever.
+
+- **New task:** start the thread with **New worktree** instead.
+- **Move this thread to its own worktree:** fork it into a Cloudroom-managed worktree. Cloudroom makes the branch and deletes the folder 5 minutes after its last thread is archived.
+
+  ```bash
+  room-cli thread fork "$ROOM_THREAD_ID" --new-environment worktree --title "<task>" \
+    --prompt "You now run in a new worktree. Copy the gitignored .env files from <primary checkout> into it, then stop and wait for the user."
+  ```
+
+  It branches from `main`, so uncommitted edits stay behind; commit them first or pass `--base-branch <ref>`. Then tell the user to continue in the new thread and archive this one. Skip the rest of this skill.
+
 ## Start here
 
 Detect where you are before editing:
@@ -84,6 +98,6 @@ git branch -d task-branch
 
 In Cursor, use `/apply-worktree`, then review and commit.
 
-- Delete merged worktrees to reclaim their files and dependencies.
+- Delete each worktree as soon as its branch is merged or pushed to main. Nothing else cleans them up.
 - Rebase or restart worktrees that have stalled for days.
 - Commit early and often. Deleting a worktree loses uncommitted work; commits remain in the shared repository.
