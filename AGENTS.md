@@ -6,7 +6,7 @@
 - Make ALL of your responses clear & very concise
 - Use simple & easy-to-understand language
 - write in short sentences, in plain English
-- the User cannot see tool outputs, show the User everything in text
+- the User cannot see tool outputs, show him everything in text
 - Start top-level bullets without indentation. Indent nested bullets only beneath another bullet—not beneath plain text.
 
 ## BEHAVIOR
@@ -15,6 +15,7 @@
 - DO NOT use the multi-choice question UI. Ask the User in plain text.
 - Never suggest that the User switch to Plan Mode, and never switch to it yourself
 - DO NOT add new dependencies without the User's explicit approval or request
+- Assume the User may have changed things since you last looked (files, apps, timelines). Re-check the live state before you answer or act.
 
 ## CODE QUALITY
 - NEVER mention development time (aka how long things will take)
