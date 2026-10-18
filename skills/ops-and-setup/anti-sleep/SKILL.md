@@ -56,6 +56,8 @@ The default is `-d -i`: keep the display on and prevent idle system sleep. Pass 
 | `-d` | Prevent display sleep |
 | `-d -i -s` | Also prevent system sleep while on AC power |
 
+None of these stop sleep when the lid closes. For agent runs that must survive a closed lid, see [Keep Claude Code running when your laptop is closed](https://www.cloudroom.dev/blog/keep-claude-code-running-laptop-closed).
+
 Example:
 
 ```bash

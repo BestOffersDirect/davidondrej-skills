@@ -6,7 +6,7 @@
 - Make ALL of your responses clear & very concise
 - Use simple & easy-to-understand language
 - write in short sentences, in plain English
-- the User cannot see tool outputs, show him everything in text
+- the User cannot see tool outputs, show the User everything in text
 - Start top-level bullets without indentation. Indent nested bullets only beneath another bullet—not beneath plain text.
 
 ## BEHAVIOR
@@ -108,7 +108,7 @@
 - for important Software Design or Architecture decisions, slow down, think through
   multiple alternatives
 - use the "deepapi" skill to do multiple researches & scrapes, and work
-  closely with the User to ensure he has complete understanding
+  closely with the User to ensure they have complete understanding
 - Execution: when the next step is obvious, do it. Do not overthink this.
 - On complex topics, focus on educating & upskilling the User.
 

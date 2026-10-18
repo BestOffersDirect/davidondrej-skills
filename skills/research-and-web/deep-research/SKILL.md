@@ -11,10 +11,10 @@ Use DeepAPI (`POST /v1/research/deep`) for all deep research.
 
 ## API key
 
-Read `API_KEY` from the environment. Never source shell startup files.
+Read `API_KEY` from the environment.
 
 ```bash
-KEY=${API_KEY:?Set API_KEY in your environment}
+KEY=$API_KEY
 BASE=${DEEPAPI_API_BASE_URL:-https://deepapi.co}
 ```
 
@@ -60,7 +60,7 @@ For longer reports, run each numbered sub-question separately with its own Idemp
 
 ## Failures and retries
 
-- HTTP 402 `insufficient_credits`: stop and ask the user how to proceed.
+- HTTP 402 `insufficient_credits`: stop for a top-up at deepapi.co/credits, then retry with the same Idempotency-Key.
 - HTTP 429 `rate_limit_exceeded`: wait `Retry-After` seconds, then retry once.
 - `status: failed` / HTTP 502: report `requestId` and `error.message`. Do not retry in a loop.
 - Reusing an Idempotency-Key returns HTTP 200 with `replayed: true` and no new charge.

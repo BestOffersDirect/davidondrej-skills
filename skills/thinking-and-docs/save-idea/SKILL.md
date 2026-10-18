@@ -1,11 +1,11 @@
 ---
 name: save-idea
-description: Save ideas, observations, content topics, projects, and convictions in <ideas-repo>. Use when the user asks to capture an idea or insight. Adds to idea backlogs, not reminders or tasks.
+description: Save ideas, observations, content topics, projects, and convictions in ~/path/to/ideas. Use when the user asks to capture an idea or insight. Adds to idea backlogs, not reminders or tasks.
 ---
 
 # save-idea
 
-Capture the entry in `<ideas-repo>`, commit, push, and confirm. All paths below are relative to that repo.
+Capture the entry in `~/path/to/ideas`, commit, push, and confirm. All paths below are relative to that repo.
 
 ## 1. Capture and Route
 
@@ -57,22 +57,22 @@ N. Title — one-line explanation.
     - source: <repo>, <agent and chat/session>, <date>
 ```
 
-- Startups: read `startup/AGENTS.md`. Tighten the entry while keeping the user's voice. Insert after the last numbered idea, before the trailing `----` separator and discarded-ideas note. Preserve the existing root `STARTUP-IDEAS.md` symlink to `startup/STARTUP-IDEAS.md`.
+- Startups: read `startup/AGENTS.md`. Tighten the entry while keeping the user's voice. Insert after the last numbered idea, before the trailing `----` separator and discarded-ideas note. Preserve the root `STARTUP-IDEAS.md` symlink to `startup/STARTUP-IDEAS.md`.
 - Convictions: append `N. Punchy conviction — one-line why.`, tightened but faithful to the user's wording.
 - Mini projects: append `N. Idea exactly as the user said it`; do not rewrite or add an explanation.
 
 ## 4. Commit and Push
 
-The user has pre-authorized and requires commits and pushes for captures in the eight files listed above. This is an explicit exception to the global no-push-without-asking rule. It covers only those backlogs, including the startup symlink's target, not other repo changes.
+**The user has pre-authorized and requires commits and pushes for captures in the eight files listed above.** This is an explicit exception to the global no-push-without-asking rule. It covers only those backlogs, including the startup symlink's target, not other repo changes.
 
 Run Git yourself using `git -C`; do not change cwd or delegate this step:
 
 ```bash
-git -C <ideas-repo> pull --rebase --autostash origin main
+git -C ~/path/to/ideas pull --rebase --autostash origin main
 # Stage only this capture's files; example:
-git -C <ideas-repo> add OBSERVATIONS.md
-git -C <ideas-repo> commit -m "Add observation 1 on local agents"
-git -C <ideas-repo> push origin main
+git -C ~/path/to/ideas add OBSERVATIONS.md
+git -C ~/path/to/ideas commit -m "Add observation 1 on local agents"
+git -C ~/path/to/ideas push origin main
 ```
 
 - Stage only the captured idea files; never `git add -A`. For the startup symlink, stage `startup/STARTUP-IDEAS.md`. Keep unrelated staged changes or edits out of the commit.
@@ -85,5 +85,5 @@ Report the exact saved entry text, number, file, and successful push.
 
 ## Protected Locations
 
-- Never write or push to the legacy startup repo. Startup support material belongs in the ideas repo's `startup/` directory.
+- Never write or push to the old `~/path/to/old-startup` repo. Startup support material belongs in `~/path/to/ideas/startup/`.
 - Never write to `startup/review/DISCARDED.md`; only the user moves ideas there.

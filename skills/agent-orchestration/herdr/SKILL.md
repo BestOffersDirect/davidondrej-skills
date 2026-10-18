@@ -101,7 +101,7 @@ Verify launch with `herdr agent wait <pane> --status working --timeout MS` or `h
 
 ### Cursor CLI
 
-Use `cursor-agent` in scripts. `agent` is an alias/new docs name; interactive aliases may not expand in scripts.
+Use `cursor-agent` in scripts. `agent` is an alias/new docs name; David's interactive `cur` shorthand expands to `cursor-agent --yolo`, but aliases do not expand in scripts.
 
 Discover available model slugs with `cursor-agent --list-models` before launching into an existing shell pane:
 

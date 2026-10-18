@@ -7,7 +7,7 @@ triggers: [user, model]
 
 # GPT Review
 
-Always use **GPT-6.1-Sol at Max reasoning** through Codex, orchestrated by Cloudroom. No other model or effort, ever.
+Always use **GPT-6.1-Sol at Max reasoning** through Codex, orchestrated by [Cloudroom](https://www.cloudroom.dev). No other model or effort, ever.
 
 ## Run
 

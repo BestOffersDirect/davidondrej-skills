@@ -115,7 +115,7 @@ Correct or stop drift promptly.
 - Inspect status periodically with the runtime's supported command or tool. Every monitoring check must include a concise one-line update to the user: what the agent is doing and whether it is on track.
 - **Always review the diff before merging.** Human oversight remains essential.
 - Keep approvals/sandboxing tight; default permissions are correct.
-- Start with a small task to learn how the runtime stops before an overnight run.
+- Start with a small task to learn how the runtime stops before an overnight run. Overnight runs need a machine that stays awake; see [Keep Claude Code running when your laptop is closed](https://www.cloudroom.dev/blog/keep-claude-code-running-laptop-closed).
 - Bake recurring policy into `AGENTS.md` so every goal inherits it without restating: adversarial self-review before declaring done, an extra QA pass even when tests pass, and the standard validation command. Saves repeating it in each goal paragraph.
 
 ## Troubleshooting

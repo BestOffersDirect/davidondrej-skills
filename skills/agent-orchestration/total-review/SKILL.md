@@ -6,11 +6,11 @@ disable-model-invocation: true
 
 # Total Review
 
-Five reviewers: the two best models from Anthropic and from OpenAI, plus Meta's Muse Wonder, all at their highest effort and in **full permission mode** (the harness maximum). Never swap or downgrade a model, effort, or permission mode. If one is unavailable, stop and tell the user.
+Five reviewers, each in its own [Cloudroom](https://www.cloudroom.dev) thread: the two best models from Anthropic and from OpenAI, plus Meta's Muse Wonder, all at their highest effort and in **full permission mode** (the harness maximum). Never swap or downgrade a model, effort, or permission mode. If one is unavailable, stop and tell the user.
 
 ## Permissions
 
-Always spawn with full permission mode. That is Claude Code's bypass permissions and Codex's YOLO mode (no approvals, full-access sandbox). A child cannot exceed its parent, so if this thread is not in full mode, stop and tell the user.
+Always spawn with `--permission-mode full`. That is Claude Code's bypass permissions (`--dangerously-skip-permissions`) and Codex's YOLO mode (no approvals, `danger-full-access` sandbox). A child cannot exceed its parent, so if this thread is not in full mode, stop and tell the user.
 
 ## Reviewers
 
@@ -22,12 +22,12 @@ Always spawn with full permission mode. That is Claude Code's bypass permissions
 
 ## 1. Launch
 
-1. Confirm each model is listed with `max` in its supported reasoning efforts using the configured provider interface.
-2. Spawn all five in parallel, one thread each, using the reviewer settings plus max reasoning, full permission mode, and a title such as "Total review: <model>":
-   - **Local thread:** Use the configured local thread-spawn workflow.
-   - **Cloud thread:** Use the configured cloud thread-spawn workflow.
-   - **Fallback only:** Use the configured fallback thread-spawn workflow.
-3. Confirm in each thread's status that it runs the right model at its selected effort in full permission mode.
+1. Confirm each model is listed with `max` in `supportedReasoningEfforts`: `room-cli provider models claude-code --json`, `room-cli provider models codex --json`, and `room-cli provider models pi --json`.
+2. Spawn all five in parallel, one thread each, with the reviewer flags plus `--reasoning-level max --permission-mode full --title "Total review: <model>"`:
+   - **Local thread:** `room-cli thread spawn --parent-self --project "<project ID>" --environment <env ID from room-cli status --json>`
+   - **Cloud thread:** `cloudroom thread spawn` (see `cloudroom thread --help`).
+   - **Fallback only:** `bb thread spawn` (see `/bb-cli`).
+3. Confirm with `thread show` that each thread runs the right model at its effort in `full` permission mode.
 
 ## 2. Brief
 
@@ -39,7 +39,7 @@ Never hint at suspected bugs, mention the other reviewers, or share one reviewer
 
 ## 3. Collect
 
-Wait for each thread to finish, then collect its output. Idle status, timeouts, and queued retries are not completion. Report a failed reviewer; never pass off partial output as a review.
+Run `thread wait`, then `thread output`, on each. Idle status, timeouts, and queued retries are not completion. Report a failed reviewer; never pass off partial output as a review.
 
 ## 4. Merge and report
 

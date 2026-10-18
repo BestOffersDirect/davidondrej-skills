@@ -10,22 +10,22 @@ Fetch any meeting transcript from Fireflies.ai as raw text via GraphQL. Read-onl
 
 ## Auth (state-check first)
 
-The API key lives in a secure local env file (mode 600, never commit or print it):
+Load the API key from a local environment file (mode 600, never commit or print it):
 
 ```bash
-source "$API_ENV_FILE"   # exports API_KEY
+source "$SERVICE_ENV_FILE"   # exports API_KEY
 [ -n "$API_KEY" ] || echo "MISSING KEY - stop and tell the user"
 ```
 
 Every call is a POST to `https://api.fireflies.ai/graphql` with
-`Authorization: Bearer $API_KEY` and a JSON body `{"query": "..."}`.
+`Authorization: Bearer <API_KEY>` and a JSON body `{"query": "..."}`.
 
 ## Step 1 - find the meeting id
 
 ```bash
 curl -sS -X POST https://api.fireflies.ai/graphql \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $API_KEY" \
+  -H "Authorization: Bearer <API_KEY>" \
   -d '{"query":"{ transcripts(limit: 25) { id title date duration } }"}' \
   | jq -r '.data.transcripts[] | "\(.id) | \(.title) | \(.date)"'
 ```
@@ -43,7 +43,7 @@ curl -sS -X POST https://api.fireflies.ai/graphql \
 QUERY='{ transcript(id: "MEETING_ID") { title sentences { speaker_name text } } }'
 curl -sS -X POST https://api.fireflies.ai/graphql \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $API_KEY" \
+  -H "Authorization: Bearer <API_KEY>" \
   -d "$(jq -nc --arg query "$QUERY" '{query: $query}')" \
   > /tmp/ff.json
 
@@ -63,7 +63,8 @@ Optional extras on the same `transcript(id:)` query: `summary { overview short_s
 
 - `sentences: null` — recording still processing or no audio captured; nothing to pull.
 - `errors[]` in the response instead of `data` — usually a bad field name; fix the query.
-- 401/invalid key — key was rotated; ask the user for a new one (provider developer settings), update the secure local env file.
+- 401/invalid key — key was rotated; ask the user for a new one (Fireflies dashboard:
+  Settings -> Developer settings), update the local environment file.
 
 ## Verify before reporting done
 
