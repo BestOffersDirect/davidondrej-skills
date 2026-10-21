@@ -1,6 +1,6 @@
 # Send Email — DeepAPI Endpoint Reference
 
-Generated endpoint reference for the `send-email` rows of the `deepapi` skill router. Bundle version: 51884b05ac17. This file is always managed — it is refreshed with the bundle even when `../SKILL.md` has been customized.
+Generated endpoint reference for the `send-email` rows of the `deepapi` skill router. Bundle version: 65bbf0944924. This file is always managed — it is refreshed with the bundle even when `../SKILL.md` has been customized.
 
 Shared protocol (environment, auth, idempotency, dry-run, polling, and error handling) lives in `../SKILL.md`. This file carries the full per-endpoint detail.
 
@@ -152,7 +152,7 @@ Request body schema:
       }
     },
     "attachments": {
-      "description": "Present but blocked by MVP outbound email policy."
+      "description": "Not supported. Requests that include attachments are rejected."
     },
     "send": {
       "type": "boolean",

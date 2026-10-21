@@ -1,6 +1,6 @@
 # Deep Research — DeepAPI Endpoint Reference
 
-Generated endpoint reference for the `deep-research` rows of the `deepapi` skill router. Bundle version: 51884b05ac17. This file is always managed — it is refreshed with the bundle even when `../SKILL.md` has been customized.
+Generated endpoint reference for the `deep-research` rows of the `deepapi` skill router. Bundle version: 65bbf0944924. This file is always managed — it is refreshed with the bundle even when `../SKILL.md` has been customized.
 
 Shared protocol (environment, auth, idempotency, dry-run, polling, and error handling) lives in `../SKILL.md`. This file carries the full per-endpoint detail.
 
@@ -129,7 +129,7 @@ Search the web and return ranked results with title, url, snippet, and dateText 
 - Capability: `search.web`
 - Scope: `search:web`
 - Side effects: Runs a paid web search request and debits credits when finished.
-- Cost: Defaults to maxCostUsd 0.375. Pass maxCostUsd or maxCostMicrousd to choose a different customer spend cap. The final debit is capped and reported as debitMicrousd. Typical price: ~$0.005 per search.
+- Cost: Defaults to maxCostUsd 0.375. Pass maxCostUsd or maxCostMicrousd to choose a different customer spend cap. The final debit is capped and reported as debitMicrousd. Typical price: ~$0.012 per search.
 - Idempotency-Key: required
 - Polling: This route returns a terminal envelope directly.
 
@@ -158,7 +158,7 @@ Request body schema:
       "minimum": 1,
       "maximum": 100,
       "default": 10,
-      "description": "Optional cap on returned results. Defaults to 10, maximum 100. 1-10 results cost the same flat price, so never ask for fewer than 10; above 10, each extra page of ~10 results adds one more flat-price charge (bounded by maxCostUsd). For requests above 10, output.partialReason appears when pagination stops early because of upstream_failure, cost_cap, or page_limit. When absent, the request either reached maxResults or the source had no more results."
+      "description": "Optional cap on returned results. Defaults to 10, maximum 100. 1-10 results cost the same flat price, so never ask for fewer than 10; above 10, each extra result adds a small per-result charge (bounded by maxCostUsd). output.partialReason appears when the search returns fewer results than asked because of upstream_failure, cost_cap, or page_limit. When absent, the request either reached maxResults or the source had no more results."
     },
     "maxCostUsd": {
       "type": "string",
