@@ -32,4 +32,5 @@ Status: accepted (user, YYYY-MM-DD)
 - Prefer a short paragraph or list. Add sections only when they improve clarity.
 - Do not add speculative rationale, alternatives, consequences, or implementation details.
 - Use exact wording only when the user explicitly asks for an exact quote or verbatim passage.
+- Newer decisions win. The user's latest decision overrides older ADRs, because they have more information and context now. Don't treat an older ADR as a blocker; record the new decision and name the ADR it supersedes.
 - A changed decision needs a new ADR. Correct an existing ADR when the user explicitly requests it, without changing unrelated history.
