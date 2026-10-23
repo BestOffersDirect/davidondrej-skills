@@ -1,29 +1,39 @@
 ---
 name: kimi-review
-description: Launch an independent Kimi K3.1 Pro Max code review through Pi and Vercel AI Gateway, and return it verbatim. Use only when the user explicitly invokes /kimi-review.
+description: Launch an independent Kimi K3.1 Pro Max code review and return it verbatim, falling back across harnesses and routes until one works. Use only when the user explicitly invokes /kimi-review.
 disable-model-invocation: true
 triggers: [user, model]
 ---
 
 # Kimi Review
 
-Always use **Kimi K3.1 Pro at Max reasoning** through the Pi harness and the `vercel-ai-gateway` provider, orchestrated by [Cloudroom](https://www.cloudroom.dev). No other model, route, effort, or harness, ever. Vercel serves it with zero data retention and no training; OpenRouter only routes it to Moonshot directly, so never use OpenRouter.
+Always use **Kimi K3.1 Pro at Max reasoning**, orchestrated by [Cloudroom](https://www.cloudroom.dev). The model and effort never change. Only the harness or route may change, and only to get the review running.
 
-Pi's built-in catalog lacks this model. It comes from a custom entry in `~/.pi/agent/models.json` under `providers.vercel-ai-gateway.models` (OpenAI-compatible API at `https://ai-gateway.vercel.sh/v1`, `reasoning_effort` `max`).
+## Routes
+
+Try these in order. Move to the next one only when the current one fails.
+
+1. `--provider pi --model vercel-ai-gateway/moonshotai/kimi-k3.1-pro --reasoning-level max`
+2. `--provider acp-fx --model moonshotai/kimi-k3.1-pro --reasoning-level max` (fx uses Vercel AI Gateway)
+3. `--provider acp-opencode --model vercel/moonshotai/kimi-k3.1-pro --reasoning-level max`
+4. `--provider pi --model openrouter/moonshotai/kimi-k3.1-pro --reasoning-level max`
+5. `--provider acp-opencode --model openrouter/moonshotai/kimi-k3.1-pro --reasoning-level max`
+
+Vercel comes first because it keeps no data and does not train on it. OpenRouter serves this model only through Moonshot itself. Vercel routes may incur usage charges.
+
+## Pi setup
+
+Pi's built-in catalog lacks this model. Both Pi routes need the entries in [references/pi-models.json](references/pi-models.json), placed under `providers.<provider>.models` in `~/.pi/agent/models.json`. If an entry is missing (common in fresh Cloud sandboxes), back up the file, merge the entry in, and confirm with `pi --list-models | grep k3.1`.
+
+After a `models.json` edit, Cloudroom's Pi catalog can stay stale for about 5 idle minutes. A stale catalog makes the spawn fail instantly, at no cost. Wait 5 minutes without querying Pi models, then retry once.
 
 ## Run
 
-Read `/room-cli` and follow its launch checks. Reuse the current environment, including uncommitted work, and use `--parent-self` when coordinating.
+Read `/room-cli` and follow its launch checks. Reuse the current environment, including uncommitted work, and use `--parent-self`.
 
-Always spawn with exactly these flags:
+A route fails when the spawn errors, `room-cli thread show` reports a different model or effort, or the first turn errors (gateway errors, auth errors, billing errors). Stop and archive the failed thread, note its error, and try the next route.
 
-```bash
---provider pi --model vercel-ai-gateway/moonshotai/kimi-k3.1-pro --reasoning-level max
-```
-
-- Before spawning, confirm `room-cli provider models pi --json` lists `vercel-ai-gateway/moonshotai/kimi-k3.1-pro` with `max` in `supportedReasoningEfforts`.
-- After spawning, confirm with `room-cli thread show` that the thread runs `vercel-ai-gateway/moonshotai/kimi-k3.1-pro` at `max`.
-- If either check fails, stop and report the blocker. Never fall back to another model, route (such as OpenRouter or fx), effort, or harness.
+Report a blocker only after every route has failed, with each route's error.
 
 ## Review brief
 
@@ -31,6 +41,6 @@ Give neutral context: scope, paths, intended behavior, and diff/base revision. A
 
 ## Result
 
-Use `room-cli thread wait` and `room-cli thread output`. Verify this review actually completed; idle status, timeouts, gateway errors (including an empty Vercel balance), and queued retries are not completion. Report blockers rather than presenting partial output as a finished review.
+Use `room-cli thread wait` and `room-cli thread output`. Verify this review actually completed; idle status, timeouts, gateway errors, and queued retries are not completion. If a route dies mid-review, start the next route with the same brief.
 
-Return the completed reviewer's full final response verbatim.
+Return the completed reviewer's full final response verbatim, followed by one line naming the route used.
