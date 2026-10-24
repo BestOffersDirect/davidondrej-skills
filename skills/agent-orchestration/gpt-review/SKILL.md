@@ -7,21 +7,21 @@ triggers: [user, model]
 
 # GPT Review
 
-Always use **GPT-6.1-Sol at Max reasoning** through Codex, orchestrated by [Cloudroom](https://www.cloudroom.dev). No other model or effort, ever.
+Always use **GPT-6.1-Sol** through Codex, orchestrated by [Cloudroom](https://www.cloudroom.dev). Default to **Extra High reasoning on the Fast tier**. Use another effort or tier only when the user explicitly asks. Never use another model.
 
 ## Run
 
 Read `/room-cli` and follow its launch checks. Reuse the current environment, including uncommitted work, and use `--parent-self` when coordinating.
 
-Always spawn with exactly these flags:
+Spawn with these default flags:
 
 ```bash
---provider codex --model gpt-6.1-sol --reasoning-level max
+--provider codex --model gpt-6.1-sol --reasoning-level xhigh --service-tier fast
 ```
 
-- Before spawning, confirm `room-cli provider models codex --json` lists `gpt-6.1-sol` with `max` in `supportedReasoningEfforts`.
-- After spawning, confirm with `room-cli thread show` that the thread runs `gpt-6.1-sol` at `max`.
-- If either check fails, stop and report the blocker. Never fall back to another model, effort, or harness.
+- Before spawning, confirm `room-cli provider models codex --json` lists `gpt-6.1-sol` with `xhigh` in `supportedReasoningEfforts`.
+- After spawning, confirm with `room-cli thread show` that the thread runs `gpt-6.1-sol` at `xhigh` on the `fast` tier.
+- If either check fails, stop and report the blocker. Never silently fall back to another model, effort, tier, or harness.
 
 ## Review brief
 
