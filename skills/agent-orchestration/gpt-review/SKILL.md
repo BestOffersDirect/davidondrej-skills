@@ -1,13 +1,13 @@
 ---
 name: gpt-review
-description: Launch an independent GPT-6.1-Sol Max code review and return it verbatim. Use only when the user explicitly invokes /gpt-review.
+description: Launch an independent GPT-6-Astra code review and return it verbatim. Use only when the user explicitly invokes /gpt-review.
 disable-model-invocation: true
 triggers: [user, model]
 ---
 
 # GPT Review
 
-Always use **GPT-6.1-Sol** through Codex, orchestrated by [Cloudroom](https://www.cloudroom.dev). Default to **Extra High reasoning on the Fast tier**. Use another effort or tier only when the user explicitly asks. Never use another model.
+Always use **GPT-6-Astra** through Codex, orchestrated by [Cloudroom](https://www.cloudroom.dev). Default to **Extra High reasoning on the Fast tier**. Use another effort or tier only when the user explicitly asks. Never use another model.
 
 ## Run
 
@@ -16,11 +16,11 @@ Read `/room-cli` and follow its launch checks. Reuse the current environment, in
 Spawn with these default flags:
 
 ```bash
---provider codex --model gpt-6.1-sol --reasoning-level xhigh --service-tier fast
+--provider codex --model gpt-6-astra --reasoning-level xhigh --service-tier fast
 ```
 
-- Before spawning, confirm `room-cli provider models codex --json` lists `gpt-6.1-sol` with `xhigh` in `supportedReasoningEfforts`.
-- After spawning, confirm with `room-cli thread show` that the thread runs `gpt-6.1-sol` at `xhigh` on the `fast` tier.
+- Before spawning, confirm `room-cli provider models codex --json` lists `gpt-6-astra` with `xhigh` in `supportedReasoningEfforts`.
+- After spawning, confirm with `room-cli thread show` that the thread runs `gpt-6-astra` at `xhigh` on the `fast` tier.
 - If either check fails, stop and report the blocker. Never silently fall back to another model, effort, tier, or harness.
 
 ## Review brief
